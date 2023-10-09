@@ -1,13 +1,24 @@
 import ChevronDownIcon from "@heroicons/react/24/solid/ChevronDownIcon";
 import PlayIcon from "@heroicons/react/24/solid/PlayIcon";
+import { Movie } from "../Types";
+import { useNavigate } from "react-router-dom";
 
-export default function MovieCard() {
+export default function MovieCard({
+  movie,
+  lastElementRef,
+}: {
+  movie: Movie;
+  lastElementRef: ((node: HTMLDivElement) => void) | null;
+}) {
+  const { id, thumbnailUrl, title, description, duration, genre } = movie;
+  const navigate = useNavigate();
   return (
-    <div className="group bg-zinc-900 col-span relative h-[12vw] w-[24%]">
+    <div
+      className="group bg-zinc-900 col-span relative h-[12vw] w-[24%]"
+      ref={lastElementRef}
+    >
       <img
-        src={
-          "https://th.bing.com/th/id/R.2ac3205d843c38264502135684a42f54?rik=RzVBhVW47kk3tA&pid=ImgRaw&r=0"
-        }
+        src={thumbnailUrl}
         alt="Movie"
         draggable={false}
         className="
@@ -44,7 +55,7 @@ export default function MovieCard() {
     "
       >
         <img
-          src={"https://pbs.twimg.com/media/FvM3SoTaEAA9Iu0.jpg"}
+          src={thumbnailUrl}
           alt="Movie"
           draggable={false}
           className="
@@ -72,20 +83,25 @@ export default function MovieCard() {
         "
         >
           <div className="flex flex-row items-center gap-3">
-            <button className="cursor-pointer w-6 h-6 lg:w-10 lg:h-10 bg-white rounded-full flex justify-center items-center transition hover:bg-neutral-300">
+            <button
+              className="cursor-pointer w-6 h-6 lg:w-10 lg:h-10 bg-white rounded-full flex justify-center items-center transition hover:bg-neutral-300"
+              onClick={() => {
+                navigate(`/browse/${id}`);
+              }}
+            >
               <PlayIcon className="text-black w-4 lg:w-6" />
             </button>
             <div className="cursor-pointer ml-auto group/item w-6 h-6 lg:w-10 lg:h-10 border-white border-2 rounded-full flex justify-center items-center transition hover:border-neutral-300">
               <ChevronDownIcon className="text-white group-hover/item:text-neutral-300 w-4 lg:w-6" />
             </div>
           </div>
-          <p className="text-white font-semibold mt-4 text-2xl">Breaking Bad</p>
-          <p className="text-gray-400">Teacher turns into druglord</p>
+          <p className="text-white font-semibold mt-4 text-2xl">{title}</p>
+          <p className="text-gray-400">{description}</p>
           <div className="flex flex-row mt-4 gap-2 items-center">
-            <p className="text-white text-[10px] lg:text-sm">5 hours</p>
+            <p className="text-white text-[10px] lg:text-sm">{duration}</p>
           </div>
           <div className="flex flex-row items-center gap-2 mt-4 text-[8px] text-white lg:text-sm">
-            <p>Drama</p>
+            <p>{genre}</p>
           </div>
         </div>
       </div>
